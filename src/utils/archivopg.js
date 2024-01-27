@@ -24,7 +24,7 @@ const createPost = async (id, titulo, img, descripcion, likes) => {
   }else{
     const result = await pool.query(
       'INSERT INTO posts (id,titulo, img, descripcion, likes) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      [id,titulo, img, descripcion, likes]
+      [id,titulo, img, descripcion, 0]
     );
     return result.rows[0];
   }
@@ -45,7 +45,7 @@ const deletePost = async (id) => {
     [id]
   );
   if(existingPost.rows.length === 0){
-    throw new Error('No existe un post con ese id');
+    throw new Error('No existe un post con ese id para eliminar');
   }
   else{
     const result = await pool.query(
