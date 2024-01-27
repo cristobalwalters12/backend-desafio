@@ -15,7 +15,11 @@ app.get('/posts', async (_, res) => {
     res.json(posts);
   } catch (error) {
     console.error('Error al obtener los posts:', error);
-    res.status(500).send('Error interno del servidor');
+    if(error.message === 'No hay posts en la base de datos'){
+      res.status(404).json({ status: 404, response: error.message });
+    } else {
+      res.status(500).json({ status: 500, response: 'Error interno del servidor' });
+    }
   }
 });
 

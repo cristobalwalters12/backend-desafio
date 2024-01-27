@@ -12,6 +12,9 @@ const pool = new Pool({
 
 const getPosts = async () => {
   const { rows } = await pool.query('SELECT * FROM posts');
+  if (rows.length === 0) {
+    throw new Error('No hay posts en la base de datos');
+  }
   return rows;
 }
 const createPost = async (id, titulo, img, descripcion, likes) => {
